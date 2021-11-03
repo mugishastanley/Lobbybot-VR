@@ -68,7 +68,7 @@ public class KdFindClosest : MonoBehaviour
     {
         PointsInCar.UpdatePositions();
         cam = Camera.main;
-        
+
         //initialise the safe points in a list
         /***
         for (int i=0; i< _safepointparent.transform.childCount;i++)
@@ -124,9 +124,9 @@ public class KdFindClosest : MonoBehaviour
         //initialise the number of hands
        // for (int i = 0; i < CountWhite; i++)
        
-        {
+        //{
             Hands.Add(Instantiate(WhitePrefab).GetComponent<SpawnedPoint>());
-        }
+        //}
         
         
         
@@ -145,7 +145,7 @@ public class KdFindClosest : MonoBehaviour
 
     void Update()
     {
-        Hands[0].transform.position= RobotProp.transform.position;
+        //Hands[0].transform.position= RobotProp.transform.position;
     }
 
     private void FixedUpdate()
@@ -160,7 +160,7 @@ public class KdFindClosest : MonoBehaviour
         //recordtraj2();
         //WithHead_Handthreshold_Homepose();
         //WithHead_Handthreshold_Homepose2();
-        Debug.Log("Id to ros is: "+Idtoros);
+        //Debug.Log("Id to ros is: "+Idtoros);
     }
 
     public void runstrat()
@@ -489,6 +489,7 @@ public class KdFindClosest : MonoBehaviour
              SpawnedPoint nearestObj = PointsInCar.FindClosest(hand.transform.position);
              Debug.DrawLine(hand.transform.position, nearestObj.transform.position, Color.red);
              write_result2(Time.fixedTime,  nearestObj.Id,1);
+             Idtoros = nearestObj.Id;
              Nearobpos = nearestObj.transform.localPosition;
              Colorpose = nearestObj.transform.position;
              nearobrot = nearestObj.transform.localRotation;
@@ -692,7 +693,7 @@ public class KdFindClosest : MonoBehaviour
     //void OutputVisibleRenderers(Renderer[] renderers)
     private bool IsVisible(Renderer renderer)
     {
-        Plane[] planes = GeometryUtility.CalculateFrustumPlanes(Camera.main);
+        Plane[] planes = GeometryUtility.CalculateFrustumPlanes(cam);
 
         if (GeometryUtility.TestPlanesAABB(planes, renderer.bounds))
             return true;

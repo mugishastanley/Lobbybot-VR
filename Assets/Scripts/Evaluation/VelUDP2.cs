@@ -13,6 +13,8 @@ using UnityEngine.UI;
     -----------------------
 */
 
+namespace Evaluation
+{
     public class VelUDP2 : MonoBehaviour
     {
         [SerializeField] private GameObject RobotURDF;
@@ -120,23 +122,12 @@ using UnityEngine.UI;
         }
 
         // OnGUI
-        /**
-    public void OnGUI()
-    {
-        if (send)
-        {
-            SendData();
-        }
-    }
-    **/
-
-        private void FixedUpdate()
+        public void OnGUI()
         {
             if (send)
             {
                 SendData();
             }
-
         }
 
         public void ClickedButton()
@@ -184,7 +175,6 @@ using UnityEngine.UI;
 
         public void SendData()
         {
-            /*
             if (Sendhome)
             {
                 position = Homepose;
@@ -192,17 +182,17 @@ using UnityEngine.UI;
             }
             else
             {
-                position = FindObjectOfType<KdFindClosest>().Nearobpos; 
-                rotation = FindObjectOfType<KdFindClosest>().getclosestobjectrotation();
-                FindObjectOfType<KdFindClosest>().recordtraj2();
+                position = FindObjectOfType<KdFindClosest>().Nearobpos;
+                //rotation = FindObjectOfType<KdFindClosest>().getclosestobjectrotation();
+
+
 
             }
-            **/
 
             position = FindObjectOfType<KdFindClosest>().Nearobpos;
-            rotation = FindObjectOfType<KdFindClosest>().getclosestobjectrotation();
+            //rotation = FindObjectOfType<KdFindClosest>().getclosestobjectrotation();
             Visual.transform.position = FindObjectOfType<KdFindClosest>().Colorpose;
-            Visual.transform.rotation = FindObjectOfType<KdFindClosest>().getclosestobjectrotation();
+            //Visual.transform.rotation = FindObjectOfType<KdFindClosest>().getclosestobjectrotation();
 
             //Matrix4x4 RobotToCalTracker = FindObjectOfType<TestTransforms>().RB2CT();
 
@@ -218,12 +208,7 @@ using UnityEngine.UI;
             //Matrix4x4 Matrixsent = RobotToCalTracker * Matrix4x4.TRS(Tosend.transform.position, Tosend.transform.rotation, new Vector3(1,1,1)) * Transform4(63.44f);
 
             // Changes 23
-            //Matrix4x4 Matrixsent = RobotToCalTracker * Matrix4x4.TRS(position, rotation, new Vector3(1, 1, 1)) *
-            //                        FindObjectOfType<SelectFace>().ChangeSurface();
-
-
-            // Changes 23
-            Matrix4x4 Matrixsent = Matrix4x4.TRS(position, rotation, new Vector3(1, 1, 1)) *
+            Matrix4x4 Matrixsent = RobotToCalTracker * Matrix4x4.TRS(position, rotation, new Vector3(1, 1, 1)) *
                                    FindObjectOfType<SelectFace>().ChangeSurface();
             sentdata = Matrixsent;
 
@@ -578,4 +563,5 @@ using UnityEngine.UI;
 
 
     }
-    
+
+}

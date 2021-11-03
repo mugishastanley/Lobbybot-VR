@@ -19,8 +19,8 @@ namespace RosSharp.RosBridgeClient
 {
     public class PoseStampedPublisher : Publisher<Messages.Geometry.PoseStamped>
     {
-        public Transform PublishedTransform ;
-        public string FrameId = "default";
+        Transform PublishedTransform ;
+        string FrameId = "default";
 
         private Messages.Geometry.PoseStamped message;
 
