@@ -520,8 +520,7 @@ namespace Evaluation
         return pt;
     }
     **/
-
-
+        
         private void write_result2(float time, string i, int stid)
         {
             //var pos=PosTopoint(point);

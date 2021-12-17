@@ -156,10 +156,10 @@ public class KdFindClosest : MonoBehaviour
         //withHead2();
         
         
-        KdWithoutHead1();
+        //KdWithoutHead1();
         //recordtraj2();
         //WithHead_Handthreshold_Homepose();
-        //WithHead_Handthreshold_Homepose2();
+        WithHead_Handthreshold_Homepose2();
         //Debug.Log("Id to ros is: "+Idtoros);
     }
 
