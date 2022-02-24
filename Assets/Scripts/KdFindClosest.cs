@@ -460,11 +460,25 @@ public class KdFindClosest : MonoBehaviour
                 _trackhome = true;
                 nearestObj = MovetoSafePoint();
             }
-
             var position = nearestObj.transform.position;
             Debug.DrawLine(hand.transform.position, position, Color.red);
-            Idtoros = nearestObj.Id;
+            //nearestObj.Id = "15";
+            //var face = 0;
+            //int result = Int32.Parse(nearestObj.Id);
+            
+            if (nearestObj.Id == "15")
+            {
+                int result = Int32.Parse(nearestObj.Id);
+                int face = FindObjectOfType<LineRenderSettings>().Facenum;
+                int newres = result+face;
+                Idtoros = newres.ToString();
+            }
+            else
+                Idtoros = nearestObj.Id;
+            
             //write_result(Time.fixedTime, position);
+            
+            //Debug.Log("Facenum "+face);
             
             //Debug.Log("Found point at :"+ position.ToString("F5")+"Time"+Time.fixedTime);
             //nearobpostion = nearestObj.transform.localPosition;
