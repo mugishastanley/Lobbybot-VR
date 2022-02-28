@@ -19,7 +19,7 @@ public class KdFindClosest : MonoBehaviour
     //public GameObject Safepoint;
     private float velinside = 0.25f;
     private float veloutside =0.6f;
-    private float _threshold = 0.2f;
+    private float _threshold = 0.3f;
     private float _lambda = 0.3f;
 
     [SerializeField]
