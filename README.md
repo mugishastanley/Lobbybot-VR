@@ -1,6 +1,7 @@
 # What is this
 This repo contains the human intention detection and the motion prediction strategies VR part of the lobby bot project.  ##lobbybot project. [link](https://www.lobbybot.fr/). </br>
-The Strategies use sensor data from the trackers and the eye tracking functionality of the vive pro eye to predict a point of human interaction.
+The Strategies use sensor data from the trackers and the eye tracking functionality of the vive pro eye and the data is fused to predict a point of human interaction. </br>
+One tracker is attached to the human dominant hand while another one sensor is used as a tracking reference.
 
 # How to use.
 <ol>
