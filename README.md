@@ -1,5 +1,6 @@
 # What is this
-This the implimented VR part of the lobby bot project. ##lobbybot project. [link](https://www.lobbybot.fr/).
+This repo contains the human intention detection and the motion prediction strategies VR part of the lobby bot project.  ##lobbybot project. [link](https://www.lobbybot.fr/). </br>
+The Strategies use sensor data from the trackers and the eye tracking functionality of the vive pro eye to predict a point of human interaction.
 
 # How to use.
 <ol>
