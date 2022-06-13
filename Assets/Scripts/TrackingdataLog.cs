@@ -19,36 +19,29 @@ public class TrackingdataLog : MonoBehaviour
     private string EETransform = @"c:\temp\EETransform.txt";
     private string Sentdata = @"c:\temp\SentDataTransform.txt";
 
-    public GameObject RobotEndEffector;
-    public GameObject hand;
+    private string _robotproptrans = @"c:\temp\Robotproptransform.txt";
+    private string _robotpropxyz = @"c:\temp\Robotpropxyz.txt";
+    private string _robotbasetrans = @"c:\temp\Robotbasetransform.txt";
+    private string _robotbasexyz = @"c:\temp\Robotbasexyz.txt";
+    private string _propwrtbasetra = @"c:\temp\_propwrtbasetra.txt";
+    
 
-   
+    public GameObject Robotproptracker;
+    public GameObject RobotBasetracker;
 
+        
     public void Start()
     {
         inDevices();
     }
 
-    // Once you complete this module, we'll keep your Update function active
-    // to drive the map display
     void Update()
     {
-        trackerinfo();
-        //matrixsent();
-        //trackingdata();
+        //trackerinfo();
+        trackerdata();
     }
 
-    private void matrixsent() {
-        //Matrix4x4 sent = FindObjectOfType<VelUDP2>().sentdata;
-        using (StreamWriter sw = File.AppendText(Sentdata))
-        {
-            sw.WriteLine(System.DateTime.Now + "," + Time.time + ", "+ FindObjectOfType<VelUDP2>().sentdata);//time in seconds since start of game
-                                                                                                 //sw.WriteLine("Extra line");                      
-        }
-    }
-
-
-
+    #region controller and headata
     private void trackerinfo()
     {
         /*Gets information of devices available */
@@ -79,7 +72,7 @@ public class TrackingdataLog : MonoBehaviour
                 {
                     using (StreamWriter sw = File.AppendText(RightControllerVel))
                     {
-                        sw.WriteLine(System.DateTime.Now + "," + Time.time + "," + right_vel.ToString("F4"));
+                        sw.WriteLine(System.DateTime.Now.Second + "," + Time.time + "," + right_vel.ToString("F4"));
                         //sw.WriteLine("Extra line");                      
                     }
                 }
@@ -92,8 +85,6 @@ public class TrackingdataLog : MonoBehaviour
                         sw.WriteLine(System.DateTime.Now + "," + Time.time + "," + right_acc.ToString("F4"));//time in seconds since start of game
                         //sw.WriteLine("Extra line");                      
                     }
-
-
                 }
 
                 if (nodestate.TryGetRotation(out right_rot))
@@ -110,18 +101,18 @@ public class TrackingdataLog : MonoBehaviour
             {
                 if (nodestate.TryGetRotation(out head_rot))
                 {
-                    using (StreamWriter sw3 = File.AppendText(HeadRotation))
+                    using (StreamWriter sw = File.AppendText(HeadRotation))
                     {
-                        sw3.WriteLine(System.DateTime.Now + "," + Time.time + "," + head_rot.ToString("F4"));
+                        sw.WriteLine(System.DateTime.Now + "," + Time.time + "," + head_rot.ToString("F4"));
                         //sw.WriteLine("Extra line");                      
                     }
                 }
 
                 if (nodestate.TryGetRotation(out Quaternion headroteuler))
                 {
-                    using (StreamWriter sw3 = File.AppendText(HeadRotationEuler))
+                    using (StreamWriter sw = File.AppendText(HeadRotationEuler))
                     {
-                        sw3.WriteLine(System.DateTime.Now + "," + Time.time + "," + headroteuler.eulerAngles.ToString("F4"));
+                        sw.WriteLine(System.DateTime.Now + "," + Time.time + "," + headroteuler.eulerAngles.ToString("F4"));
                         //sw.WriteLine("Extra line");                      
                     }
                 }
@@ -135,41 +126,63 @@ public class TrackingdataLog : MonoBehaviour
                     }
                 }
             }
-
             //get transform matrix of End Effector
-            //Tmat = RobotEndEffector.transform.localToWorldMatrix;
-            {
-                using (StreamWriter sw3 = File.AppendText(handPos))
-                {
-                    sw3.WriteLine(System.DateTime.Now + "," + Time.time + "," + hand.transform.position.ToString("F4"));
-                    // Debug.Log("Robot EE" + Tmat.ToString());
-                }
-                
-            }
         }
 
-        void Statsinfo()
-        {
-            int framect = 1;
-            XRStats.TryGetFramePresentCount(out framect);
-
-        }
         //Debug.Log("Delta time duration " + Time.deltaTime);
 
-
     }
+    #endregion
 
-    private void trackingdata()
+    #region Tracker data
+    private void trackerdata()
     {
-        //to be called every update
-        //works fine as at 3/6/2020 6:02
-        /** same functionality as tracker info but less reliable 
-         * because it will still get data when tracked is not ready or off **/
-       Vector3 pos = InputTracking.GetLocalPosition(XRNode.RightHand);
-       Quaternion rot = InputTracking.GetLocalRotation(XRNode.RightHand);
-       Vector3 headrot = InputTracking.GetLocalRotation(XRNode.Head).eulerAngles;
-       Debug.Log("From trackingdata rght Position" + pos);
+        List<XRNodeState> nodeStates = new List<XRNodeState>();
+        UnityEngine.XR.InputTracking.GetNodeStates(nodeStates);
+
+        //get the state of each node
+        foreach (XRNodeState nodestate in nodeStates)
+        {
+
+            if (nodestate.nodeType == XRNode.Head)
+            {
+                using (StreamWriter sw3 = File.AppendText(_robotproptrans))
+                {
+                    sw3.WriteLine(System.DateTime.Now.Second + "," + Time.time + "," + Robotproptracker.transform.localToWorldMatrix.ToString("F4"));
+                    Debug.Log("Robotproptracker.transform.localToWorldMatrix" + Robotproptracker.transform.localToWorldMatrix.ToString("F4"));
+                }
+                using (StreamWriter sw3 = File.AppendText(_robotpropxyz))
+                {
+                    sw3.WriteLine(System.DateTime.Now.Second + "," + Time.time + "," + Robotproptracker.transform.position.ToString("F4")+ "," 
+                        + Robotproptracker.transform.eulerAngles.ToString("F4"));
+                    Debug.Log("Robotproptracker.transform.position" + Robotproptracker.transform.position.ToString("F4") + ","
+                        + Robotproptracker.transform.eulerAngles.ToString("F4"));
+                }
+
+                using (StreamWriter sw3 = File.AppendText(_propwrtbasetra))
+                {
+                    sw3.WriteLine(System.DateTime.Now.Second + "," + Time.time + "," + Robotproptracker.transform.worldToLocalMatrix.ToString("F4"));
+                    Debug.Log("Robotproptracker.transform.worldToLocalMatrix" + Robotproptracker.transform.worldToLocalMatrix.ToString("F4"));
+                }
+
+                using (StreamWriter sw3 = File.AppendText(_robotbasetrans))
+                {
+                    sw3.WriteLine(System.DateTime.Now.Second + "," + Time.time + "," + RobotBasetracker.transform.localToWorldMatrix.ToString("F4"));
+                    Debug.Log("RobotBasetracker.transform.localToWorldMatrix" + RobotBasetracker.transform.localToWorldMatrix.ToString("F4"));
+                }
+
+                using (StreamWriter sw3 = File.AppendText(_robotbasexyz))
+                {
+                    sw3.WriteLine(System.DateTime.Now.Second + "," + Time.time + "," + RobotBasetracker.transform.position.ToString("F4") + "," 
+                        + RobotBasetracker.transform.eulerAngles.ToString("F4"));
+                    Debug.Log("RobotBasetracker.transform.position"+ RobotBasetracker.transform.position.ToString("F4") + ","
+                        + RobotBasetracker.transform.eulerAngles.ToString("F4"));
+                }
+            }
+        }
     }
+    #endregion 
+
 
     void inDevices()
     {

@@ -70,8 +70,8 @@ public class KdFindClosest : MonoBehaviour
             point.GetComponent<SpawnedPoint>().Id = "SP"+num;
             Safepoints.Add((point).GetComponent<SpawnedPoint>());
             Allpoints.Add(point.GetComponent<SpawnedPoint>());
-            Debug.Log("Safepoint" + num + point.transform.localPosition.ToString("F4"));
-            Debug.Log("Safepoint" + num + point.transform.position.ToString("F4"));
+            //Debug.Log("Safepoint" + num + point.transform.localPosition.ToString("F4"));
+            //Debug.Log("Safepoint" + num + point.transform.position.ToString("F4"));
 
         }
     
@@ -84,6 +84,7 @@ public class KdFindClosest : MonoBehaviour
     {
         _gazevector = FindObjectOfType<SRanipal_GazeRay>().GazeDirection;
         WithHead_Handthreshold_Homepose2();
+        Debug.Log("Id to ros"+ Idtoros);
     }
 
     
@@ -110,8 +111,9 @@ public class KdFindClosest : MonoBehaviour
              //   pts2.Add(second);
             //var point = Use_Angles(pts2, _lambda);
 
-            if ((Vector3.Distance(nearestObj.transform.position, hand.transform.position) < _threshold) && IsVisible(nearestObj.GetComponent<Renderer>()))
-            {
+            //if ((Vector3.Distance(nearestObj.transform.position, hand.transform.position) < _threshold) && IsVisible(nearestObj.GetComponent<Renderer>()))
+                if ((Vector3.Distance(nearestObj.transform.position, hand.transform.position) < _threshold))
+                {
                 //smallestf = dist;
                 nearestObj = nearestObj;
                 _trackhome = false;
@@ -186,7 +188,6 @@ public class KdFindClosest : MonoBehaviour
     {
         return nearobrot;
     }
-
     private bool IsVisible(Renderer renderer)
     {
         Plane[] planes = GeometryUtility.CalculateFrustumPlanes(cam);
@@ -248,6 +249,3 @@ public class KdFindClosest : MonoBehaviour
         return nearest;
     }
 }
-
-
-
