@@ -4,6 +4,7 @@ The Strategies use sensor data from the trackers and the eye tracking functional
 One tracker is attached to the human dominant hand while another one sensor is used as a tracking reference.
 
 # How do I use the code?.
+This code can be used as a stand alone VR apllication to appreciate the prediction behaviour when motion of the robot is not required. To use it as a haptic application, the motion planning part is required and has to be set up accordingly.
 <ol>
 <li>Set up the HTC Vive tracking System </li>
 <li>Install Unity VR Software . we recommend version 19.06 </li>
